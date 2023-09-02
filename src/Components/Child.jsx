@@ -19,33 +19,26 @@ const Child = ({
   useEffect(() => {
     setTextData(data);
   }, [data]);
-  const handleEditData = (event) => {
+
+  const handleEditData = (nam, text) => {
     // event.stopPropagation();
-    console.log("calling edit for ", name);
-    onEditData(name, textData, event);
+    // console.log("calling edit for ", name);
+    onEditData(nam, text);
     setEditData(false);
     // e.stopPropagation();    // console.log(e.target)
   };
-  const handleNameChange = () => {
-    console.log(
-      "calling for ",
-      name,
-      "old name",
-      name,
-      " and new name ",
-      newName
-    );
-    onNameChange(name, newName);
+  const handleNameChange = (nam, newNam) => {
+    onNameChange(nam, newNam);
     setEditName(false);
   };
   const handleAddChild = (parentName, ind) => {
-    console.log("clicked name is", parentName);
+    // console.log("clicked name is", parentName);
     onAddChild(parentName, ind);
   };
 
   return (
-    <div className="border-4 border-blue-400 mx-10 my-10">
-      <div className="flex w-full justify-between  bg-blue-400 px-2 py-4">
+    <div className="border-4 border-blue-400 mx-10 md:my-10 my-5 min-w-0">
+      <div className="flex w-full justify-between  bg-blue-400 px-2 py-4 min-w-0">
         <div>
           <div className="flex gap-x-2">
             <button
@@ -61,49 +54,54 @@ const Child = ({
             ) : (
               <input
                 value={newName}
-                className=" m-auto text-lg font-semibold"
+                className="w-full m-auto text-lg font-semibold"
                 onKeyDown={(e) => {
-                  console.log("clicked key is", e.key);
+                  // console.log("clicked key is", e.key);
                   if (e.key === "Enter") {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleNameChange();
+                    if (!newName) {
+                      setNewName(name);
+                      setEditName(false);
+                    } else {
+                      handleNameChange(name, newName);
+                    }
                   }
                 }}
                 onChange={(e) => [setNewName(e.target.value)]}
+                required
               />
             )}
           </div>
         </div>
         <button
           onClick={(e) => handleAddChild(name, index)}
-          className="px-3 py-1 bg-gray-300"
+          className="md:px-3 px-1 py-1 bg-gray-300"
         >
           Add Child
         </button>
       </div>
       {!isCollapsed && (
         <div>
-          {textData ? (
+          {data ? (
             editData ? (
               <div className="text-left p-3">
                 {" "}
                 Data:
                 <input
-                  className="px-5 py-2 border-2 border-blue-300"
-                  type="text"
+                  className="md:px-5 w-full py-2 border-2 border-blue-300"
                   value={textData}
-                  onChange={(e) => setTextData(e.target.value)}
+                  onChange={(e) => [setTextData(e.target.value)]}
                   // onBlur={handleEditData}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       // console.log("key is",e)
-                      e.preventDefault();
-                      e.stopPropagation();
-
-                      handleEditData(e);
+                      if (!textData) {
+                        setTextData(data);
+                        setEditData(false);
+                      } else handleEditData(name, textData);
+                      // onEditData();
                     }
                   }}
+                  required
                 />
               </div>
             ) : (

@@ -19,7 +19,7 @@ function LandingPage() {
             const { data, ...rest } = updatedChildren[i];
             updatedChildren[i] = rest;
             setRootChildren(updatedChildren);
-            console.log("family is", updatedChildren);
+            // console.log("family is", updatedChildren);
           }
           let children = updatedChildren[i].children;
           updatedChildren[i].children.push({
@@ -57,13 +57,13 @@ function LandingPage() {
   };
 
   const handleEditData = (tagName, newData) => {
-    console.log("editing dat for ", tagName, " data is ", newData);
+    // console.log("editing dat for ", tagName, " data is ", newData);
     const checkObject = (rootChildren) => {
       for (let i in rootChildren) {
-        console.log("current name is", rootChildren[i].name);
+        // console.log("current name is", rootChildren[i].name);
         if (rootChildren[i].name == tagName) {
           rootChildren[i].data = newData;
-          console.log("edited ", rootChildren[i]);
+          // console.log("edited ", rootChildren[i]);
           return;
         } else if (rootChildren[i].children) {
           checkObject(rootChildren[i].children);
@@ -73,10 +73,10 @@ function LandingPage() {
     checkObject(rootChildren);
     setRootChildren(rootChildren);
     setExportData(JSON.stringify(rootChildren[0]));
-    console.log("after data edition ", rootChildren);
+    // console.log("after data edition ", rootChildren);
   };
   useEffect(() => {
-    console.log("i am changed");
+    // console.log("i am changed");
     setExportData(JSON.stringify(rootChildren[0]));
   }, [rootChildren]);
   return (
